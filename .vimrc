@@ -46,6 +46,9 @@ nnoremap j gj
 nnoremap k gk
 " Pressing semicolon in normal mode will automatically assume colon for commands
 nnoremap ; :
+" Auto indent pasted text
+nnoremap p p=`]<C-o>
+nnoremap P P=`]<C-o>
 
 " filetype specific plugin/indent
 filetype plugin indent on
