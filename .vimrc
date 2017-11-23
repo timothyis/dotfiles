@@ -15,12 +15,20 @@ call plug#begin('~/.vim/plugged')
   Plug 'airblade/vim-gitgutter' " Git in the gutter
   Plug 'alvan/vim-closetag' " Auto-close tags
   Plug 'pangloss/vim-javascript' " JS Syntax
+  Plug 'mxw/vim-jsx' " JSX Syntax
+  Plug 'alampros/vim-styled-jsx' " Styled-jsx Syntax
   Plug 'elzr/vim-json' " JSON Syntax
   Plug 'digitaltoad/vim-pug' " Pug Syntax
-  Plug 'Raimondi/delimitMate' "Autocomplete quotes etc.
+  Plug 'jiangmiao/auto-pairs' " Autocomplete quotes, brackets etc.
   Plug 'terryma/vim-multiple-cursors'
   Plug 'yuttie/hydrangea-vim' " Hydrangea theme
   Plug 'w0rp/ale' " Linting
+  Plug 'scrooloose/nerdtree' " file explorer sidebar
+  " Following (until snipmate) is for snipmate
+  Plug 'MarcWeber/vim-addon-mw-utils'
+  Plug 'tomtom/tlib_vim'
+  Plug 'garbas/vim-snipmate' " Snippets in vim
+  Plug 'honza/vim-snippets' " Snippets collection
 call plug#end()
 
 " Stop vim-json from hiding quotes
@@ -49,6 +57,8 @@ nnoremap ; :
 " Auto indent pasted text
 nnoremap p p=`]<C-o>
 nnoremap P P=`]<C-o>
+" Toggle NERDTree with ,n
+map <leader>n :NERDTreeToggle<CR>
 
 " filetype specific plugin/indent
 filetype plugin indent on
@@ -149,5 +159,14 @@ endif
 
 let g:airline_symbols.maxlinenr = ''
 
-" Delimitmate will expand and add a carriage return to brackets
-let delimitMate_expand_cr = 1
+" Don't limit JSX highlighting to files with .jsx filetype
+let g:jsx_ext_required = 0
+
+" filenames for vim-closetag to autoclose HTML tags (including jsx in .js files)
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.jsx,*.js'
+
+" Allow creation of dirs on write
+augroup BWCCreateDir
+    autocmd!
+    autocmd BufWritePre * if expand("<afile>")!~#'^\w\+:/' && !isdirectory(expand("%:h")) | execute "silent! !mkdir -p ".shellescape(expand('%:h'), 1) | redraw! | endif
+augroup END
